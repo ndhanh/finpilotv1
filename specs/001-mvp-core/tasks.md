@@ -42,12 +42,12 @@ description: "Task list template for feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Setup PostgreSQL database schema with migrations (Alembic)
-- [ ] T008 [P] Implement JWT authentication with httpOnly cookies in backend/auth/security.py
-- [ ] T009 [P] Setup FastAPI routing structure and CORS middleware in backend/src/main.py
-- [ ] T010 Create base SQLAlchemy models (User, Plan) in backend/src/models/
-- [ ] T011 Configure error handling and structured logging in backend/src/utils/
-- [ ] T012 Implement deterministic projection calculation engine in backend/src/calculations/projection.py
+- [x] T007 Setup PostgreSQL database schema with migrations (Alembic)
+- [x] T008 [P] Implement JWT authentication with httpOnly cookies in backend/auth/security.py
+- [x] T009 [P] Setup FastAPI routing structure and CORS middleware in backend/src/main.py
+- [x] T010 Create base SQLAlchemy models (User, Plan) in backend/src/models/
+- [x] T011 Configure error handling and structured logging in backend/src/utils/
+- [x] T012 Implement deterministic projection calculation engine in backend/src/calculations/projection.py
 - [ ] T013 Implement rule-based recommendation engine in backend/src/calculations/rules.py
 - [ ] T014 Create Pydantic schemas for all API requests/responses in backend/src/schemas/
 - [ ] T015 Setup pytest fixtures for database and calculation testing

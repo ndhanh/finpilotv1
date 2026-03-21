@@ -1,5 +1,4 @@
-from pydantic import BaseSettings
-from typing import List
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -10,7 +9,12 @@ class Settings(BaseSettings):
     secret_key: str
 
     # CORS
-    cors_origins: List[str]
+    cors_origins: str
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        """Parse CORS origins into a list"""
+        return [origin.strip() for origin in self.cors_origins.split(",")]
 
     class Config:
         env_file = ".env"
