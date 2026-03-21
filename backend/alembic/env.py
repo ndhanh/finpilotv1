@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import engine_from_config, create_engine
 from sqlalchemy import pool
 
 from alembic import context
@@ -25,6 +25,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from src.database import Base
+
+# Import all models to ensure they are registered with SQLAlchemy
+import src.models.user  # noqa: F401
+import src.models.goal  # noqa: F401
+import src.models.plan  # noqa: F401
+import src.models.audit  # noqa: F401
 
 target_metadata = Base.metadata
 
@@ -65,13 +71,12 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    # Use synchronous engine for alembic with psycopg2
+    sync_url = "postgresql://finpilot_user:finpilot_password@db:5432/finpilot"
 
-    with connectable.connect() as connection:
+    sync_engine = create_engine(sync_url, poolclass=pool.NullPool)
+
+    with sync_engine.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():

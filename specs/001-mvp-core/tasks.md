@@ -71,9 +71,9 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Create Goal and GoalAssumptions models in backend/src/models/goal.py
-- [ ] T021 [P] [US1] Create FinancialSnapshot and ProjectionResult models in backend/src/models/
-- [ ] T022 [P] [US1] Create CalculationAudit model for audit trail in backend/src/models/audit.py
+- [x] T020 [P] [US1] Create Goal and GoalAssumptions models in backend/src/models/goal.py
+- [x] T021 [P] [US1] Create FinancialSnapshot and ProjectionResult models in backend/src/models/
+- [x] T022 [P] [US1] Create CalculationAudit model for audit trail in backend/src/models/audit.py
 - [ ] T023 [US1] Implement goal service CRUD operations in backend/src/services/goal_service.py
 - [ ] T024 [US1] Implement projection service with calculation orchestration in backend/src/services/projection_service.py
 - [ ] T025 [US1] Implement plan service for saving/loading plans in backend/src/services/plan_service.py
