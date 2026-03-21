@@ -48,9 +48,9 @@ description: "Task list template for feature implementation"
 - [x] T010 Create base SQLAlchemy models (User, Plan) in backend/src/models/
 - [x] T011 Configure error handling and structured logging in backend/src/utils/
 - [x] T012 Implement deterministic projection calculation engine in backend/src/calculations/projection.py
-- [ ] T013 Implement rule-based recommendation engine in backend/src/calculations/rules.py
-- [ ] T014 Create Pydantic schemas for all API requests/responses in backend/src/schemas/
-- [ ] T015 Setup pytest fixtures for database and calculation testing
+- [x] T013 Implement rule-based recommendation engine in backend/src/calculations/rules.py
+- [x] T014 Create Pydantic schemas for all API requests/responses in backend/src/schemas/
+- [x] T015 Setup pytest fixtures for database and calculation testing
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
