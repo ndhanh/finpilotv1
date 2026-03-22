@@ -5,7 +5,7 @@ Defines request/response models for financial recommendations.
 """
 
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from enum import Enum
 
 

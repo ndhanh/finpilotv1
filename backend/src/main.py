@@ -43,14 +43,6 @@ app.add_exception_handler(FinPilotException, finpilot_exception_handler)
 async def startup_event():
     """Application startup event"""
     logger.info("Starting FinPilot API")
-    # Test database connection
-    try:
-        async with engine.begin() as conn:
-            await conn.execute(text("SELECT 1"))
-        logger.info("Database connection established")
-    except Exception as e:
-        logger.error(f"Database connection failed: {e}")
-        raise
 
 
 @app.on_event("shutdown")

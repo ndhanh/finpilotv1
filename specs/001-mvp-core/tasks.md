@@ -74,21 +74,21 @@ description: "Task list template for feature implementation"
 - [x] T020 [P] [US1] Create Goal and GoalAssumptions models in backend/src/models/goal.py
 - [x] T021 [P] [US1] Create FinancialSnapshot and ProjectionResult models in backend/src/models/
 - [x] T022 [P] [US1] Create CalculationAudit model for audit trail in backend/src/models/audit.py
-- [ ] T023 [US1] Implement goal service CRUD operations in backend/src/services/goal_service.py
-- [ ] T024 [US1] Implement projection service with calculation orchestration in backend/src/services/projection_service.py
-- [ ] T025 [US1] Implement plan service for saving/loading plans in backend/src/services/plan_service.py
-- [ ] T026 [US1] Create projection API endpoint in backend/src/api/projections.py
-- [ ] T027 [US1] Create goals API endpoints in backend/src/api/goals.py
-- [ ] T028 [US1] Create plans API endpoints in backend/src/api/plans.py
-- [ ] T029 [US1] Add VND formatting utilities in frontend/src/lib/formatting.ts
-- [ ] T030 [US1] Create onboarding question components in frontend/src/components/planning/
-- [ ] T031 [US1] Implement progressive data capture with localStorage in frontend/src/hooks/usePlan.ts
-- [ ] T032 [US1] Create plan context for state management in frontend/src/context/PlanContext.tsx
+- [x] T023 [US1] Implement goal service CRUD operations in backend/src/services/goal_service.py
+- [x] T024 [US1] Implement projection service with calculation orchestration in backend/src/services/projection_service.py
+- [x] T025 [US1] Implement plan service for saving/loading plans in backend/src/services/plan_service.py
+- [x] T026 [US1] Create projection API endpoint in backend/src/api/projections.py
+- [x] T027 [US1] Create goals API endpoints in backend/src/api/goals.py
+- [x] T028 [US1] Create plans API endpoints in backend/src/api/plans.py
+- [x] T029 [US1] Add VND formatting utilities in frontend/src/lib/formatting.ts
+- [x] T030 [US1] Create onboarding question components in frontend/src/components/planning/
+- [x] T031 [US1] Implement progressive data capture with localStorage in frontend/src/hooks/usePlan.ts
+- [x] T032 [US1] Create plan context for state management in frontend/src/context/PlanContext.tsx
 - [x] T033 [US1] Build onboarding flow pages in frontend/src/app/plan/
-- [ ] T034 [US1] Create projection chart component with Recharts in frontend/src/components/dashboard/ProjectionChart.tsx
-- [ ] T035 [US1] Build results dashboard page in frontend/src/app/plan/results/page.tsx
-- [ ] T036 [US1] Implement save plan prompt and signup flow in frontend/src/components/dashboard/SavePlanPrompt.tsx
-- [ ] T037 [US1] Add API client wrapper for backend communication in frontend/src/lib/api.ts
+- [x] T034 [US1] Create projection chart component with Recharts in frontend/src/components/dashboard/ProjectionChart.tsx
+- [x] T035 [US1] Build results dashboard page in frontend/src/app/plan/results/page.tsx
+- [x] T036 [US1] Implement save plan prompt and signup flow in frontend/src/components/dashboard/SavePlanPrompt.tsx
+- [x] T037 [US1] Add API client wrapper for backend communication in frontend/src/lib/api.ts
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
