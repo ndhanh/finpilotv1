@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { MARKETING_ORIGIN } from '@/lib/site-urls'
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false)
@@ -85,9 +87,9 @@ export default function DashboardPage() {
               >
                 Create New Plan
               </button>
-              <button onClick={() => router.push('/')} className="btn-primary">
+              <Link href={MARKETING_ORIGIN} className="btn-primary inline-block text-center">
                 Back to Home
-              </button>
+              </Link>
             </div>
           </div>
         </div>

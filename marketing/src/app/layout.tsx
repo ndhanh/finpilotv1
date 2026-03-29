@@ -5,9 +5,12 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FinPilot — App',
+  title: 'FinPilot — Lập kế hoạch tài chính cá nhân',
   description:
-    'Plan your financial goals with confidence. Vietnamese-first financial planning for house purchases and emergency funds.',
+    'Nền tảng lập kế hoạch tài chính cho người Việt: mục tiêu rõ ràng, mô phỏng và lộ trình thực tế.',
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_MARKETING_URL ?? 'http://localhost:3001'
+  ),
 }
 
 export default function RootLayout({

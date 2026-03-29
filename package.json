@@ -1,0 +1,14 @@
+{
+  "name": "finpilot",
+  "private": true,
+  "workspaces": ["frontend", "marketing"],
+  "scripts": {
+    "dev": "npm run dev -w finpilot-frontend",
+    "dev:app": "npm run dev -w finpilot-frontend",
+    "dev:marketing": "npm run dev -w finpilot-marketing",
+    "build:app": "npm run build -w finpilot-frontend",
+    "build:marketing": "npm run build -w finpilot-marketing",
+    "lint:app": "npm run lint -w finpilot-frontend",
+    "lint:marketing": "npm run lint -w finpilot-marketing"
+  }
+}
