@@ -6,39 +6,25 @@
 
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   formatVND,
   formatMonthsRemaining,
   formatProgress,
 } from '@/lib/formatting'
-import {
-  ProjectionChart,
-  MonthlyProjectionData,
-} from '@/components/dashboard/ProjectionChart'
+import { ProjectionChart } from '@/components/dashboard/ProjectionChart'
 import SavePlanPrompt from '@/components/dashboard/SavePlanPrompt'
-import { usePlanContext } from '@/context/PlanContext'
+import { PlanProvider, usePlanContext } from '@/context/PlanContext'
+import { projectionsApi, goalsApi } from '@/lib/api'
 
-export interface ProjectionResult {
-  is_achievable: boolean
-  total_months: number
-  final_savings: number
-  final_debt: number
-  final_net_worth: number
-  total_contributions: number
-  total_investment_growth: number
-  monthly_projections: MonthlyProjectionData[]
-  shortfall_amount: number
-  recommended_monthly_increase: number
-  break_even_month?: number
-}
+import { ProjectionResult, MonthlyProjectionData } from '@/types/projection'
 
 interface ResultsDashboardProps {
   result: ProjectionResult
   targetAmount: number
 }
 
-export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
+const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
   result,
   targetAmount,
 }) => {
@@ -269,4 +255,147 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
   )
 }
 
-export default ResultsDashboard
+/**
+ * Results Page Component
+ *
+ * Fetches projection data from backend and renders the dashboard
+ */
+const ResultsPageContent: React.FC = () => {
+  const plan = usePlanContext()
+  const [result, setResult] = useState<ProjectionResult | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchProjection = async () => {
+      if (!plan.isValidForProjection()) {
+        setError('Thiếu thông tin cần thiết để tính toán dự báo')
+        setLoading(false)
+        return
+      }
+
+      try {
+        console.log('Creating goal with data:', {
+          name: plan.planData.goalName || 'Mục tiêu tài chính',
+          goal_type: plan.planData.goalType || 'house_purchase',
+          target_amount: plan.planData.targetAmount,
+          target_date: plan.planData.targetDate,
+          current_savings: plan.planData.currentSavings || 0,
+        })
+
+        // Create goal first
+        const goalResponse = await goalsApi.create(1, {
+          // Using dummy user_id for now
+          name: plan.planData.goalName || 'Mục tiêu tài chính',
+          description: plan.planData.goalDescription,
+          goal_type: plan.planData.goalType || 'house_purchase',
+          target_amount: plan.planData.targetAmount!,
+          target_date: plan.planData.targetDate!,
+          current_savings: plan.planData.currentSavings || 0,
+          assumptions: {
+            expected_return_rate: plan.planData.expectedReturnRate || 0.07,
+            inflation_rate: plan.planData.inflationRate || 0.04,
+            debt_interest_rate: plan.planData.debtInterestRate || 0.12,
+          },
+        })
+
+        console.log('Goal creation response:', goalResponse)
+
+        if (goalResponse.error) {
+          throw new Error(goalResponse.error)
+        }
+
+        const goalId = goalResponse.data?.id
+        console.log('Created goal with ID:', goalId)
+
+        // Calculate projection
+        const projectionInput = {
+          target_amount: plan.planData.targetAmount!,
+          timeline_months: plan.planData.timelineYears! * 12,
+          monthly_contribution: plan.planData.monthlyContribution!,
+          current_savings: plan.planData.currentSavings || 0,
+          current_debt: plan.planData.currentDebt || 0,
+          expected_return_rate: plan.planData.expectedReturnRate || 0.07,
+          inflation_rate: plan.planData.inflationRate || 0.04,
+          debt_interest_rate: plan.planData.debtInterestRate || 0.12,
+        }
+        console.log('Calculating projection with input:', projectionInput)
+
+        const projectionResponse = await projectionsApi.calculate(
+          goalId,
+          1,
+          projectionInput
+        )
+
+        console.log('Projection response:', projectionResponse)
+
+        if (projectionResponse.error) {
+          throw new Error(projectionResponse.error)
+        }
+
+        setResult(projectionResponse.data!)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Lỗi không xác định')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProjection()
+  }, [plan])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Đang tính toán dự báo tài chính...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h1 className="text-2xl font-bold text-red-900 mb-2">
+            Lỗi Tính Toán
+          </h1>
+          <p className="text-red-700 mb-4">{error}</p>
+          <button
+            onClick={() => window.history.back()}
+            className="px-6 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+          >
+            Quay Lại
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!result) {
+    return null
+  }
+
+  return (
+    <ResultsDashboard
+      result={result}
+      targetAmount={plan.planData.targetAmount!}
+    />
+  )
+}
+
+/**
+ * Main Results Page Component with PlanProvider
+ */
+const ResultsPage: React.FC = () => {
+  return (
+    <PlanProvider>
+      <ResultsPageContent />
+    </PlanProvider>
+  )
+}
+
+export default ResultsPage

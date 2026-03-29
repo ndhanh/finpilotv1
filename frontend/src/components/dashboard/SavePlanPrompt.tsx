@@ -9,6 +9,7 @@
 
 import React, { useState } from 'react'
 import { usePlanContext } from '@/context/PlanContext'
+import { plansApi, goalsApi } from '@/lib/api'
 
 export interface SavePlanPromptProps {
   result?: any
@@ -36,29 +37,83 @@ export const SavePlanPrompt: React.FC<SavePlanPromptProps> = ({
     setError('')
 
     try {
-      // TODO: Implement API call to save plan
-      // This would involve:
-      // 1. Creating user account (if new)
-      // 2. Saving plan and goals
-      // 3. Storing projection results
-      // 4. Redirecting to dashboard
+      console.log('Starting save plan process...')
+      // For now, use a dummy user ID (in real app, this would come from auth)
+      const userId = 1
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      // Create plan
+      const planData = {
+        name: planName,
+        description: `Kế hoạch ${plan.planData.goalType} - ${plan.planData.targetAmount} VND`,
+      }
+      console.log('Creating plan with data:', planData)
+
+      const planResponse = await plansApi.create(userId, planData)
+      console.log('Plan creation response:', planResponse)
+      console.log('Plan creation response:', planResponse)
+
+      if (planResponse.error) {
+        throw new Error(`Không thể tạo kế hoạch: ${planResponse.error}`)
+      }
+
+      const planId = planResponse.data?.id
+      console.log('Created plan with ID:', planId)
+
+      // Create goal and associate with plan
+      const goalData = {
+        name: plan.planData.goalName || 'Mục tiêu tài chính',
+        description: plan.planData.goalDescription,
+        goal_type: plan.planData.goalType || 'house_purchase',
+        target_amount: plan.planData.targetAmount!,
+        target_date: plan.planData.targetDate!,
+        current_savings: plan.planData.currentSavings || 0,
+        assumptions: {
+          expected_return_rate: plan.planData.expectedReturnRate || 0.07,
+          inflation_rate: plan.planData.inflationRate || 0.04,
+          debt_interest_rate: plan.planData.debtInterestRate || 0.12,
+        },
+      }
+      console.log('Creating goal with data:', goalData)
+
+      const goalResponse = await goalsApi.create(userId, goalData)
+      console.log('Goal creation response:', goalResponse)
+
+      if (goalResponse.error) {
+        throw new Error(`Không thể tạo mục tiêu: ${goalResponse.error}`)
+      }
+
+      const goalId = goalResponse.data?.id
+      console.log('Created goal with ID:', goalId)
+
+      // Associate goal with plan
+      if (planId && goalId) {
+        const associationResponse = await plansApi.addGoal(
+          planId,
+          goalId,
+          userId
+        )
+        if (associationResponse.error) {
+          console.warn(
+            'Không thể liên kết mục tiêu với kế hoạch:',
+            associationResponse.error
+          )
+          // Don't fail the whole operation for this
+        }
+      }
 
       setSuccess(true)
       plan.clearDraft()
 
-      // Redirect to dashboard after success
+      // In a real app, you might redirect to dashboard or show success message
       setTimeout(() => {
-        // window.location.href = `/dashboard/plan/${newPlanId}`;
         onClose()
+        // Could redirect to dashboard here
       }, 2000)
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : 'Lỗi khi lưu kế hoạch. Vui lòng thử lại.'
+          : 'Lỗi không xác định khi lưu kế hoạch'
       )
     } finally {
       setIsLoading(false)

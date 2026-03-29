@@ -22,19 +22,7 @@ import {
   ComposedChart,
 } from 'recharts'
 import { formatVND } from '@/lib/formatting'
-
-export interface MonthlyProjectionData {
-  month: number
-  year: number
-  savings_balance: number
-  debt_balance: number
-  net_worth: number
-  monthly_contribution: number
-  investment_growth: number
-  debt_payment: number
-  cumulative_savings: number
-  cumulative_investments: number
-}
+import { MonthlyProjectionData } from '@/types/projection'
 
 interface ProjectionChartProps {
   data: MonthlyProjectionData[]
