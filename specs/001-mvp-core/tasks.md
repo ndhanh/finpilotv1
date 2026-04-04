@@ -64,10 +64,10 @@ description: "Task list template for feature implementation"
 
 ### Tests for User Story 1
 
-- [ ] T016 [P] [US1] Unit tests for projection calculations in backend/tests/test_calculations/test_projection.py
-- [ ] T017 [P] [US1] Unit tests for recommendation rules in backend/tests/test_calculations/test_rules.py
-- [ ] T018 [P] [US1] API contract tests for projection endpoint in backend/tests/test_api/test_projections.py
-- [ ] T019 [US1] E2E test for complete house purchase journey in frontend/**tests**/e2e/onboarding.spec.ts
+- [x] T016 [P] [US1] Unit tests for projection calculations in backend/tests/test_calculations/test_projection.py ✅ 30+ tests
+- [x] T017 [P] [US1] Unit tests for recommendation rules in backend/tests/test_calculations/test_rules.py ✅ 20+ tests
+- [x] T018 [P] [US1] API contract tests for projection endpoint in backend/tests/test_api/test_projections.py ✅ 20+ tests
+- [ ] T019 [US1] E2E test for complete house purchase journey in frontend/**tests**/e2e/onboarding.spec.ts _(frontend completed, E2E pending)_
 
 ### Implementation for User Story 1
 
@@ -80,15 +80,15 @@ description: "Task list template for feature implementation"
 - [x] T026 [US1] Create projection API endpoint in backend/src/api/projections.py
 - [x] T027 [US1] Create goals API endpoints in backend/src/api/goals.py
 - [x] T028 [US1] Create plans API endpoints in backend/src/api/plans.py
-- [x] T029 [US1] Add VND formatting utilities in frontend/src/lib/formatting.ts
-- [x] T030 [US1] Create onboarding question components in frontend/src/components/planning/
-- [x] T031 [US1] Implement progressive data capture with localStorage in frontend/src/hooks/usePlan.ts
-- [x] T032 [US1] Create plan context for state management in frontend/src/context/PlanContext.tsx
-- [x] T033 [US1] Build onboarding flow pages in frontend/src/app/plan/
-- [x] T034 [US1] Create projection chart component with Recharts in frontend/src/components/dashboard/ProjectionChart.tsx
-- [x] T035 [US1] Build results dashboard page in frontend/src/app/plan/results/page.tsx
-- [x] T036 [US1] Implement save plan prompt and signup flow in frontend/src/components/dashboard/SavePlanPrompt.tsx
-- [x] T037 [US1] Add API client wrapper for backend communication in frontend/src/lib/api.ts
+- [x] T029 [US1] Add VND formatting utilities in frontend/src/lib/formatting.ts ✅
+- [x] T030 [US1] Create onboarding question components in frontend/src/components/planning/ ✅
+- [x] T031 [US1] Implement progressive data capture with localStorage in frontend/src/hooks/usePlan.ts ✅
+- [x] T032 [US1] Create plan context for state management in frontend/src/context/PlanContext.tsx ✅
+- [x] T033 [US1] Build onboarding flow pages in frontend/src/app/plan/ ✅
+- [x] T034 [US1] Create projection chart component with Recharts in frontend/src/components/dashboard/ProjectionChart.tsx ✅
+- [x] T035 [US1] Build results dashboard page in frontend/src/app/plan/results/page.tsx ✅
+- [x] T036 [US1] Implement save plan prompt and signup flow in frontend/src/components/dashboard/SavePlanPrompt.tsx ✅
+- [x] T037 [US1] Add API client wrapper for backend communication in frontend/src/lib/api.ts ✅
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
