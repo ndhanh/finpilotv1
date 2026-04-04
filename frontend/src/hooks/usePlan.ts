@@ -6,8 +6,13 @@
  */
 
 import { useState, useCallback, useEffect } from 'react'
+import { PlanTemplate } from '@/types/template'
 
 export interface PlanData {
+  // Template selection
+  selectedTemplate?: PlanTemplate | null
+  templateId?: string
+
   // Basic info
   goalType?: string
   goalName?: string
@@ -107,6 +112,16 @@ export const usePlan = () => {
     [planData]
   )
 
+  // Set selected template
+  const setSelectedTemplate = useCallback((template: PlanTemplate | null) => {
+    setPlanData((prev) => ({
+      ...prev,
+      selectedTemplate: template,
+      templateId: template?.id || undefined,
+    }))
+    setIsDirty(true)
+  }, [])
+
   // Validate plan has minimum required data
   const isValidForProjection = useCallback((): boolean => {
     return (
@@ -150,6 +165,7 @@ export const usePlan = () => {
     updateMultiple,
     completeStep,
     clearDraft,
+    setSelectedTemplate,
 
     // Queries
     getProgress,

@@ -176,7 +176,7 @@
 
 ### Frontend Type Definitions
 
-- [ ] **[TYP-001]** **[P1]** Create TypeScript type definitions for templates
+- [x] **[TYP-001]** **[P1]** Create TypeScript type definitions for templates ✅
   - File: [frontend/src/types/template.ts](../../frontend/src/types/) (NEW FILE)
   - Types:
 
@@ -198,7 +198,7 @@
 
 ### Frontend Templates Library
 
-- [ ] **[LIB-001]** **[P1]** Create template definitions and utilities
+- [x] **[LIB-001]** **[P1]** Create template definitions and utilities ✅
   - File: [frontend/src/lib/templates.ts](../../frontend/src/lib/) (NEW FILE)
   - Content:
     - Template definitions matching backend config (home_purchase, emergency_fund)
@@ -207,7 +207,7 @@
   - Dependency: TYP-001
   - Test: `npm run build` should succeed with no errors
 
-- [ ] **[LIB-002]** **[P1]** Update `lib/api.ts` to add template endpoints
+- [x] **[LIB-002]** **[P1]** Update `lib/api.ts` to add template endpoints ✅
   - File: [frontend/src/lib/api.ts](../../frontend/src/lib/api.ts)
   - Methods:
     - `fetchAllTemplates(): Promise<PlanTemplate[]>`
@@ -223,7 +223,7 @@
 
 ### Frontend Components
 
-- [ ] **[CMP-001]** **[P1]** Create TemplateSelectionCard component
+- [x] **[CMP-001]** **[P1]** Create TemplateSelectionCard component ✅
   - File: [frontend/src/components/planning/TemplateSelectionCard.tsx](../../frontend/src/components/planning/) (NEW FILE)
   - Props: `{ template: PlanTemplate, onClick: (id: string) => void, disabled?: boolean }`
   - Features:
@@ -234,7 +234,7 @@
   - Dependency: TYP-001
   - Test: Render with home_purchase and emergency_fund templates, verify button states
 
-- [ ] **[CMP-002]** **[P1]** Create TemplateSelectionPage component
+- [x] **[CMP-002]** **[P1]** Create TemplateSelectionPage component ✅
   - File: [frontend/src/components/planning/TemplateSelectionPage.tsx](../../frontend/src/components/planning/) (NEW FILE)
   - Features:
     - Fetch templates from API (use LIB-002)
@@ -248,14 +248,14 @@
 
 ### Frontend Routes & Pages
 
-- [ ] **[RTE-001]** **[P1]** [US1] Create `/plan-templates` route in frontend
+- [x] **[RTE-001]** **[P1]** [US1] Create `/plan-templates` route in frontend ✅
   - File: [frontend/src/app/plan-templates/page.tsx](../../frontend/src/app/plan-templates/) (NEW FILE)
   - Content: Page component that renders TemplateSelectionPage
   - Fallback route if user navigates directly to /plan-templates
   - Dependency: CMP-002
   - Test: Navigate to `/plan-templates`, page renders without errors
 
-- [ ] **[RTE-002]** **[P1]** Create `/plan-templates` route in marketing (primary entry)
+- [x] **[RTE-002]** **[P1]** Create `/plan-templates` route in marketing (primary entry) ✅
   - File: [marketing/src/app/plan-templates/page.tsx](../../marketing/src/app/plan-templates/) (NEW FILE)
   - Content: Page component that either:
     - Option A: Renders TemplateSelectionPage (duplicate component)
@@ -266,7 +266,7 @@
 
 ### Frontend Hooks
 
-- [ ] **[HK-001]** **[P1]** Create `useTemplateSelection` hook
+- [x] **[HK-001]** **[P1]** Create `useTemplateSelection` hook ✅
   - File: [frontend/src/hooks/useTemplateSelection.ts](../../frontend/src/hooks/) (NEW FILE)
   - Hook logic:
     - `const { templates, loading, error } = useTemplateSelection()`
@@ -276,7 +276,7 @@
   - Dependency: LIB-002
   - Test: Hook returns templates array of length 2, handles loading state
 
-- [ ] **[HK-002]** **[P1]** Update `usePlan` hook to track template selection
+- [x] **[HK-002]** **[P1]** Update `usePlan` hook to track template selection ✅
   - File: [frontend/src/hooks/usePlan.ts](../../frontend/src/hooks/usePlan.ts)
   - Changes:
     - Add `selectedTemplate` to return object
@@ -287,7 +287,7 @@
 
 ### Frontend Tests
 
-- [ ] **[TST-004]** **[P1]** Write component tests for TemplateSelectionCard
+- [x] **[TST-004]** **[P1]** Write component tests for TemplateSelectionCard ✅
   - File: [frontend/**tests**/components/TemplateSelectionCard.test.tsx](../../frontend/__tests__/components/) (NEW FILE)
   - Tests:
     - `test('renders template with icon and name')`
@@ -298,7 +298,7 @@
   - Dependency: CMP-001
   - Command: `npm run test -- TemplateSelectionCard`
 
-- [ ] **[TST-005]** **[P1]** Write component tests for TemplateSelectionPage
+- [x] **[TST-005]** **[P1]** Write component tests for TemplateSelectionPage ✅
   - File: [frontend/**tests**/components/TemplateSelectionPage.test.tsx](../../frontend/__tests__/components/) (NEW FILE)
   - Tests:
     - `test('renders both template cards')`

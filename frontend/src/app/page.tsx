@@ -5,5 +5,5 @@ import { redirect } from 'next/navigation'
  * Root route sends users straight into the planning flow.
  */
 export default function Home() {
-  redirect('/plan')
+  redirect('/plan-templates')
 }
