@@ -7,6 +7,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react'
 import { usePlan, PlanData } from '@/hooks/usePlan'
+import { PlanTemplate } from '@/types/template'
 
 interface PlanContextType {
   planData: PlanData
@@ -15,6 +16,7 @@ interface PlanContextType {
   updateMultiple: (updates: Partial<PlanData>) => void
   completeStep: (stepNumber: number) => void
   clearDraft: () => void
+  setSelectedTemplate: (template: PlanTemplate | null) => void
   getProgress: () => number
   isFieldComplete: (field: keyof PlanData) => boolean
   isValidForProjection: () => boolean

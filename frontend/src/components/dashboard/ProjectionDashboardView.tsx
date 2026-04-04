@@ -5,24 +5,24 @@
 'use client'
 
 import React, { useState } from 'react'
-import {
-  formatVND,
-  formatProgress,
-} from '@/lib/formatting'
+import { formatVND, formatProgress } from '@/lib/formatting'
 import { ProjectionChart } from '@/components/dashboard/ProjectionChart'
 import SavePlanPrompt from '@/components/dashboard/SavePlanPrompt'
 import { ProjectionResult } from '@/types/projection'
+import { PlanTemplate } from '@/types/template'
 
 export interface ProjectionDashboardViewProps {
   result: ProjectionResult
   targetAmount: number
   monthlyContribution: number
+  selectedTemplate?: PlanTemplate | null
 }
 
 export function ProjectionDashboardView({
   result,
   targetAmount,
   monthlyContribution,
+  selectedTemplate,
 }: ProjectionDashboardViewProps) {
   const [showSavePrompt, setShowSavePrompt] = useState(false)
 
@@ -46,9 +46,15 @@ export function ProjectionDashboardView({
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Kết quả dự báo tài chính
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-4">
             Phân tích từ máy chủ FinPilot dựa trên thông tin bạn đã nhập
           </p>
+          {selectedTemplate && (
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+              <span>{selectedTemplate.icon}</span>
+              <span>{selectedTemplate.name_vi}</span>
+            </div>
+          )}
         </div>
 
         <div
@@ -72,18 +78,21 @@ export function ProjectionDashboardView({
 
               {result.is_achievable ? (
                 <p className="text-green-800">
-                  Với {formatVND(monthlyContribution)} tiết kiệm hàng tháng, ước tính đạt
-                  mục tiêu sau khoảng {timePhrase}.
+                  Với {formatVND(monthlyContribution)} tiết kiệm hàng tháng, ước
+                  tính đạt mục tiêu sau khoảng {timePhrase}.
                 </p>
               ) : (
                 <div>
                   <p className="text-yellow-800 mb-2">
-                    Với {formatVND(monthlyContribution)} tiết kiệm hàng tháng, còn thiếu{' '}
-                    {formatVND(result.shortfall_amount)} để đạt mục tiêu trong kỳ hạn đã chọn.
+                    Với {formatVND(monthlyContribution)} tiết kiệm hàng tháng,
+                    còn thiếu {formatVND(result.shortfall_amount)} để đạt mục
+                    tiêu trong kỳ hạn đã chọn.
                   </p>
                   <p className="text-yellow-800 font-medium">
                     Gợi ý: tăng tiết kiệm hàng tháng lên ít nhất{' '}
-                    {formatVND(monthlyContribution + result.recommended_monthly_increase)}
+                    {formatVND(
+                      monthlyContribution + result.recommended_monthly_increase
+                    )}
                   </p>
                 </div>
               )}
@@ -148,7 +157,9 @@ export function ProjectionDashboardView({
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Tăng trưởng đầu tư (ước tính):</span>
+                <span className="text-gray-600">
+                  Tăng trưởng đầu tư (ước tính):
+                </span>
                 <span className="font-semibold text-green-600">
                   +{formatVND(result.total_investment_growth)}
                 </span>
@@ -221,7 +232,10 @@ export function ProjectionDashboardView({
         </div>
 
         {showSavePrompt && (
-          <SavePlanPrompt result={result} onClose={() => setShowSavePrompt(false)} />
+          <SavePlanPrompt
+            result={result}
+            onClose={() => setShowSavePrompt(false)}
+          />
         )}
       </div>
     </div>

@@ -16,14 +16,14 @@
 
 ### Database
 
-- [ ] **[DB-001]** **[P1]** Create Alembic migration to add `template_id` column to `plans` table
+- [x] **[DB-001]** **[P1]** Create Alembic migration to add `template_id` column to `plans` table ✅
   - File: [backend/alembic/versions/{timestamp}\_add_template_id_to_plans.py](../../backend/alembic/versions/)
   - Steps: 1) Add nullable `template_id` varchar(50), 2) Create migration script, 3) Verify rollback works
   - Command: `cd backend && alembic revision --autogenerate -m "Add template_id to plans table"`
   - Dependency: None
   - Test: Run migration up/down in dev database, verify column exists with `\d plans` in psql
 
-- [ ] **[DB-002]** **[P1]** Set migration default: backfill existing plans with `template_id='home_purchase'`
+- [x] **[DB-002]** **[P1]** Set migration default: backfill existing plans with `template_id='home_purchase'` ✅
   - File: [backend/alembic/versions/{timestamp}\_add_template_id_to_plans.py](../../backend/alembic/versions/) (same file as DB-001)
   - Steps: 1) In migration operations_batch, add `op.execute("UPDATE plans SET template_id = 'home_purchase' WHERE template_id IS NULL")`, 2) Make template_id non-nullable after update
   - Dependency: DB-001
@@ -31,13 +31,13 @@
 
 ### Backend Models & Schemas
 
-- [ ] **[MDL-001]** **[P1]** Update `Plan` model with `template_id` field
+- [x] **[MDL-001]** **[P1]** Update `Plan` model with `template_id` field ✅
   - File: [backend/src/models/plan.py](../../backend/src/models/plan.py)
   - Changes: Add `template_id: str` column definition, add relationship or constraint notes
   - Dependency: DB-002
   - Test: `python -c "from src.models.plan import Plan; import inspect; print(inspect.signature(Plan))"` should include template_id
 
-- [ ] **[SCH-001]** **[P1]** Create `PlanTemplate` base schema
+- [x] **[SCH-001]** **[P1]** Create `PlanTemplate` base schema ✅
   - File: [backend/src/schemas/template.py](../../backend/src/schemas/) (NEW FILE)
   - Content: PydanticV2 models for:
     - `TemplateResponse` (id, name_vi, description_vi, icon, status, wizard_steps)
@@ -45,7 +45,7 @@
   - Dependency: None (can run in parallel with MDL-001)
   - Test: `python -c "from src.schemas.template import TemplateResponse; TemplateResponse.model_validate({...})"` should work
 
-- [ ] **[SCH-002]** **[P1]** Update `PlanCreate` and `PlanResponse` schemas to include template_id
+- [x] **[SCH-002]** **[P1]** Update `PlanCreate` and `PlanResponse` schemas to include template_id ✅
   - File: [backend/src/schemas/plan.py](../../backend/src/schemas/plan.py)
   - Changes: 1) Add `template_id: str = 'home_purchase'` to PlanCreate, 2) Add `template_id: str` to PlanResponse
   - Dependency: MDL-001, SCH-001
@@ -53,7 +53,7 @@
 
 ### Backend Configuration
 
-- [ ] **[CFG-001]** **[P1]** Create template configuration constants
+- [x] **[CFG-001]** **[P1]** Create template configuration constants ✅
   - File: [backend/src/config/templates.py](../../backend/src/config/) (NEW FILE)
   - Content: Python dict with templates:
     ```python
@@ -90,7 +90,7 @@
 
 ### Backend Services
 
-- [ ] **[SVC-001]** **[P1]** Create `TemplateService` class
+- [x] **[SVC-001]** **[P1]** Create `TemplateService` class ✅
   - File: [backend/src/services/template_service.py](../../backend/src/services/) (NEW FILE)
   - Methods:
     - `get_all_templates()` → List[TemplateResponse]
@@ -99,7 +99,7 @@
   - Dependency: CFG-001, SCH-001
   - Test: `from src.services.template_service import TemplateService; svc = TemplateService(); assert len(svc.get_all_templates()) == 2`
 
-- [ ] **[SVC-002]** **[P1]** Update `PlanService` to accept and validate template_id
+- [x] **[SVC-002]** **[P1]** Update `PlanService` to accept and validate template_id ✅
   - File: [backend/src/services/plan_service.py](../../backend/src/services/plan_service.py)
   - Changes: 1) Modify `create_plan()` to accept optional `template_id` param, 2) Validate template exists before creating, 3) Store template_id in new plan
   - Dependency: SVC-001, MDL-001
@@ -107,7 +107,7 @@
 
 ### Backend API Endpoints
 
-- [ ] **[API-001]** **[P1]** Create templates endpoint module
+- [x] **[API-001]** **[P1]** Create templates endpoint module ✅
   - File: [backend/src/api/templates.py](../../backend/src/api/) (NEW FILE)
   - Endpoints:
     - `GET /api/templates` → TemplateListResponse (all templates including coming_soon)
@@ -116,19 +116,19 @@
   - Dependency: SVC-001
   - Test: `pytest tests/test_api/test_templates.py::test_get_all_templates` should return 2 templates
 
-- [ ] **[API-002]** **[P1]** Register templates routes in API router
+- [x] **[API-002]** **[P1]** Register templates routes in API router ✅
   - File: [backend/src/api/router.py](../../backend/src/api/router.py)
   - Changes: Add `from .templates import router as templates_router` and `app.include_router(templates_router, prefix="/api", tags=["templates"])`
   - Dependency: API-001
   - Test: `curl http://localhost:8000/api/templates` should return valid JSON
 
-- [ ] **[API-003]** **[P1]** Update `POST /api/plans` endpoint to accept and validate template_id
+- [x] **[API-003]** **[P1]** Update `POST /api/plans` endpoint to accept and validate template_id ✅
   - File: [backend/src/api/plans.py](../../backend/src/api/plans.py)
   - Changes: 1) Accept `template_id` in PlanCreate schema, 2) Pass to PlanService.create_plan(), 3) Return template_id in response
   - Dependency: SVC-002, SCH-002, API-002
   - Test: POST plan with template_id='home_purchase', verify it's stored and returned
 
-- [ ] **[API-004]** **[P1]** Add health check to template endpoints (if not exists)
+- [x] **[API-004]** **[P1]** Add health check to template endpoints (if not exists) ✅
   - File: [backend/src/api/templates.py](../../backend/src/api/templates.py)
   - Changes: Add GET /api/health/templates endpoint to verify template service is operational
   - Dependency: API-001
@@ -136,7 +136,7 @@
 
 ### Backend Tests
 
-- [ ] **[TST-001]** **[P1]** Write integration tests for template endpoints
+- [x] **[TST-001]** **[P1]** Write integration tests for template endpoints ✅
   - File: [backend/tests/test_api/test_templates.py](../../backend/tests/test_api/) (NEW FILE)
   - Tests:
     - `test_get_all_templates()` - verify returns 2 templates with correct fields
@@ -146,7 +146,7 @@
   - Dependency: API-001, API-002
   - Command: `cd backend && pytest tests/test_api/test_templates.py -v`
 
-- [ ] **[TST-002]** **[P1]** Write service tests for TemplateService
+- [x] **[TST-002]** **[P1]** Write service tests for TemplateService ✅
   - File: [backend/tests/test_services/test_template_service.py](../../backend/tests/test_services/) (NEW FILE)
   - Tests:
     - `test_get_all_templates_returns_list()`
@@ -156,7 +156,7 @@
   - Dependency: SVC-001
   - Command: `cd backend && pytest tests/test_services/test_template_service.py -v`
 
-- [ ] **[TST-003]** **[P1]** Write tests for modified plan creation with template_id
+- [x] **[TST-003]** **[P1]** Write tests for modified plan creation with template_id ✅
   - File: [backend/tests/test_services/test_plan_service.py](../../backend/tests/test_services/test_plan_service.py)
   - Tests:
     - `test_create_plan_with_valid_template_id()`
@@ -319,7 +319,7 @@
 
 ### Frontend Context Updates
 
-- [ ] **[CTX-001]** **[P1]** [US2] Update `PlanContext` to include selected template
+- [x] **[CTX-001]** **[P1]** [US2] Update `PlanContext` to include selected template ✅
   - File: [frontend/src/context/PlanContext.tsx](../../frontend/src/context/PlanContext.tsx)
   - Changes:
     - Add `selectedTemplate: PlanTemplate | null` to context state
@@ -328,7 +328,7 @@
   - Dependency: TYP-001
   - Test: Set template in context, verify it persists across re-renders
 
-- [ ] **[CTX-002]** **[P1]** Update `PlanContext` to preserve template through wizard steps
+- [x] **[CTX-002]** **[P1]** Update `PlanContext` to preserve template through wizard steps ✅
   - File: [frontend/src/context/PlanContext.tsx](../../frontend/src/context/PlanContext.tsx)
   - Changes: When transitioning between wizard steps, maintain selectedTemplate in context
   - Dependency: CTX-001
@@ -336,7 +336,7 @@
 
 ### Frontend Plan Wizard Refactoring
 
-- [ ] **[WIZ-001]** **[P1]** [US2] Refactor `/plan` page to respect template selection
+- [x] **[WIZ-001]** **[P1]** [US2] Refactor `/plan` page to respect template selection ✅
   - File: [frontend/src/app/plan/page.tsx](../../frontend/src/app/plan/page.tsx)
   - Changes:
     - Check if user has selected template (from context or URL param `?template=home_purchase`)
@@ -347,7 +347,7 @@
   - Test: Navigate to /plan without template → redirects to /plan-templates
     Navigate to /plan?template=home_purchase → shows wizard
 
-- [ ] **[WIZ-002]** **[P1]** [US2] Filter wizard steps to match selected template
+- [x] **[WIZ-002]** **[P1]** [US2] Filter wizard steps to match selected template ✅
   - File: [frontend/src/app/plan/page.tsx](../../frontend/src/app/plan/page.tsx)
   - Changes:
     - Read `template.wizard_steps` from context
@@ -356,7 +356,7 @@
   - Dependency: WIZ-001, LIB-001
   - Test: Template has ["goal", "amount", "assets", ...], verify only these show
 
-- [ ] **[WIZ-003]** **[P1]** [US2] Update plan submission to include template_id
+- [x] **[WIZ-003]** **[P1]** [US2] Update plan submission to include template_id ✅
   - File: [frontend/src/app/plan/page.tsx](../../frontend/src/app/plan/page.tsx)
   - Changes:
     - When POST /api/plans, include `template_id: selectedTemplate.id` in request body
@@ -364,7 +364,7 @@
   - Dependency: WIZ-001, CTX-001, API-003
   - Test: Submit plan form, backend returns plan with template_id='home_purchase'
 
-- [ ] **[WIZ-004]** **[P1]** Update plan results page to show template info
+- [x] **[WIZ-004]** **[P1]** Update plan results page to show template info ✅
   - File: [frontend/src/app/plan/results/page.tsx](../../frontend/src/app/plan/results/page.tsx)
   - Changes: Display which template user completed (e.g., "Kế hoạch mua nhà" badge)
   - Dependency: TYP-001
@@ -372,19 +372,19 @@
 
 ### Frontend Navigation Flow
 
-- [ ] **[NAV-001]** **[P1]** Update landing page CTA to point to template selection
+- [x] **[NAV-001]** **[P1]** Update landing page CTA to point to template selection ✅
   - File: [marketing/src/app/page.tsx](../../marketing/src/app/page.tsx)
   - Changes: Verify CTA button href points to `/plan-templates` (or redirects to frontend /plan-templates)
   - Dependency: RTE-001
   - Test: Click CTA on landing page, navigate to template selection page
 
-- [ ] **[NAV-002]** **[P1]** Add back button to template selection page
+- [x] **[NAV-002]** **[P1]** Add back button to template selection page ✅
   - File: [frontend/src/components/planning/TemplateSelectionPage.tsx](../../frontend/src/components/planning/TemplateSelectionPage.tsx)
   - Changes: Add back button at top that returns to landing page or previous page
   - Dependency: CMP-002
   - Test: Click back button, returns to previous page
 
-- [ ] **[NAV-003]** **[P1]** Prevent direct navigation to /plan without template
+- [x] **[NAV-003]** **[P1]** Prevent direct navigation to /plan without template ✅
   - File: [frontend/src/app/plan/page.tsx](../../frontend/src/app/plan/page.tsx)
   - Changes: Add route guard that checks for selectedTemplate before rendering wizard
   - Dependency: WIZ-001, CTX-001
@@ -392,7 +392,7 @@
 
 ### Frontend API Integration
 
-- [ ] **[APM-001]** **[P1]** Update form submission to call POST /api/plans with template
+- [x] **[APM-001]** **[P1]** Update form submission to call POST /api/plans with template ✅
   - File: [frontend/src/app/plan/review/page.tsx](../../frontend/src/app/plan/review/page.tsx) (or form submission logic)
   - Changes: Include `template_id` in request body
   - Dependency: CTX-001, API-003
@@ -400,13 +400,13 @@
 
 ### Frontend Tests
 
-- [ ] **[TST-006]** **[P1]** Write integration test: landing → template selection → wizard
+- [x] **[TST-006]** **[P1]** Write integration test: landing → template selection → wizard ✅
   - File: [frontend/**tests**/e2e/template-wizard-flow.test.tsx](../../frontend/__tests__/e2e/) (NEW FILE)
   - Test: Full user flow from template selection through wizard start
   - Dependency: All frontend Phase 4 tasks
   - Command: `npm run test:e2e -- template-wizard-flow`
 
-- [ ] **[TST-007]** **[P1]** Write tests for plan context template persistence
+- [x] **[TST-007]** **[P1]** Write tests for plan context template persistence ✅
   - File: [frontend/**tests**/context/PlanContext.test.tsx](../../frontend/__tests__/context/) (NEW FILE)
   - Tests:
     - `test('selectedTemplate persists through wizard steps')`

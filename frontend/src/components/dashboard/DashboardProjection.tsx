@@ -120,7 +120,9 @@ export function DashboardProjection() {
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <div className="text-6xl mb-4">⚠️</div>
-          <h1 className="text-2xl font-bold text-red-900 mb-2">Không thể hiển thị dự báo</h1>
+          <h1 className="text-2xl font-bold text-red-900 mb-2">
+            Không thể hiển thị dự báo
+          </h1>
           <p className="text-red-700 mb-6">{error ?? 'Thiếu dữ liệu'}</p>
           <button
             type="button"
@@ -139,6 +141,7 @@ export function DashboardProjection() {
       result={result}
       targetAmount={snapshot.targetAmount}
       monthlyContribution={snapshot.monthlyContribution}
+      selectedTemplate={plan.planData.selectedTemplate}
     />
   )
 }

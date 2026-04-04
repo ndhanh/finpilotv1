@@ -24,9 +24,9 @@ export function TemplateSelectionPage() {
         // Store selected template in plan context
         setSelectedTemplate(template)
 
-        // Navigate to planning wizard start route
-        // This would be template-specific, e.g., /plan/purchase-home/income
-        router.push(`/plan/${templateId}/income`)
+        // Navigate to plan wizard - the /plan route guard will handle
+        // redirecting to the template-specific first step (e.g., /plan/goal)
+        router.push(`/plan?template=${templateId}`)
       }
     },
     [templates, setSelectedTemplate, router]
@@ -69,6 +69,17 @@ export function TemplateSelectionPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      {/* Back Button */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <button
+          onClick={() => window.history.back()}
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+        >
+          <span>←</span>
+          <span>Quay lại</span>
+        </button>
+      </div>
+
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
