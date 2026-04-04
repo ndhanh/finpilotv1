@@ -22,7 +22,10 @@ class PlanBase(BaseModel):
 class PlanCreate(PlanBase):
     """Schema for creating a new plan."""
 
-    pass  # Additional fields can be added here if needed
+    template_id: str = Field(
+        default="home_purchase",
+        description="ID of the plan template to use (home_purchase or emergency_fund)",
+    )
 
 
 class PlanUpdate(BaseModel):
@@ -37,6 +40,7 @@ class PlanResponse(PlanBase):
 
     id: int = Field(..., description="Plan's unique identifier")
     user_id: int = Field(..., description="ID of the user who owns this plan")
+    template_id: str = Field(..., description="ID of the plan template used")
     goals: List[GoalSummary] = Field(..., description="Goals associated with this plan")
     total_target_amount: int = Field(..., description="Sum of all goal target amounts")
     total_current_savings: int = Field(
@@ -57,6 +61,7 @@ class PlanSummary(BaseModel):
 
     id: int
     name: str
+    template_id: str
     total_target_amount: int
     total_current_savings: int
     overall_progress_percentage: float

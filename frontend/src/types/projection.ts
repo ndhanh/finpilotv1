@@ -4,7 +4,8 @@
 
 export interface ProjectionInput {
   target_amount: number
-  timeline_months: number
+  /** Must match backend schema (years 1–30) */
+  timeline_years: number
   monthly_contribution: number
   current_savings: number
   current_debt: number

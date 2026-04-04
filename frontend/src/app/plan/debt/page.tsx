@@ -44,7 +44,7 @@ export default function DebtPage() {
   const handleContinue = () => {
     if (isClient) {
       localStorage.setItem('finpilot_current_debt', currentDebt || '0')
-      router.push('/plan/review')
+      router.push('/dashboard')
     }
   }
 

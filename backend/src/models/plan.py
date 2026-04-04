@@ -19,6 +19,9 @@ class Plan(Base):
 
     name = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
+    template_id = Column(
+        String(50), nullable=False, default="home_purchase", index=True
+    )
 
     created_at = Column(
         DateTime(timezone=True), server_default=func.now(), nullable=False

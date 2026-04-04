@@ -13,6 +13,7 @@ from ..models.plan import Plan
 from ..models.goal import Goal
 from ..schemas.plan import PlanCreate, PlanUpdate, PlanResponse
 from ..utils.errors import NotFoundError, ValidationError
+from .template_service import TemplateService
 
 
 class PlanService:
@@ -31,24 +32,32 @@ class PlanService:
 
         Args:
             user_id: ID of the user creating the plan
-            plan_data: Plan creation schema with name and description
+            plan_data: Plan creation schema with name, description, and optional template_id
 
         Returns:
             Created Plan model instance
 
         Raises:
-            ValidationError: If plan data is invalid
+            ValidationError: If plan data is invalid or template_id is invalid
         """
+        # Validate template_id if provided
+        template_service = TemplateService()
+        if not template_service.validate_template_exists(plan_data.template_id):
+            raise ValidationError(f"Invalid template_id: {plan_data.template_id}")
+
         try:
             plan = Plan(
                 user_id=user_id,
                 name=plan_data.name,
                 description=plan_data.description,
+                template_id=plan_data.template_id,
             )
             self.db.add(plan)
             await self.db.flush()
             await self.db.refresh(plan)
             return plan
+        except ValidationError:
+            raise
         except Exception as e:
             raise ValidationError(f"Failed to create plan: {str(e)}")
 

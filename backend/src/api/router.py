@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import health, projections, goals, plans
+from . import health, projections, goals, plans, templates
 
 api_router = APIRouter()
 
@@ -11,3 +11,4 @@ api_router.include_router(
 )
 api_router.include_router(goals.router, prefix="/goals", tags=["goals"])
 api_router.include_router(plans.router, prefix="/plans", tags=["plans"])
+api_router.include_router(templates.router, tags=["templates"])
