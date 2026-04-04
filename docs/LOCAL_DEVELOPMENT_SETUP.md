@@ -44,6 +44,7 @@ docker-compose up
 ```
 
 You should see:
+
 ```
 db_1   | database system is ready to accept connections
 ```
@@ -51,6 +52,7 @@ db_1   | database system is ready to accept connections
 ### Verify Database is Running
 
 Check the health:
+
 ```bash
 docker-compose exec db pg_isready -U finpilot_user -d finpilot
 # Output: accepting connections
@@ -82,6 +84,7 @@ alembic upgrade head
 ```
 
 Expected output:
+
 ```
 INFO  [alembic.runtime.migration] Running upgrade 823108182c7d -> add_template_id_to_plans, Add template_id to plans table
 INFO  [alembic.runtime.migration] Migration complete
@@ -100,6 +103,7 @@ uvicorn src.main:app --reload --port 8001
 ```
 
 Expected output:
+
 ```
 INFO:     Uvicorn running on http://127.0.0.1:8000
 INFO:     Application startup complete
@@ -143,10 +147,12 @@ Edit [frontend/src/lib/api.ts](../frontend/src/lib/api.ts):
 
 ```typescript
 // Make sure the API base URL points to local backend
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 ```
 
 Or set environment variable in [frontend/.env.local](../frontend/.env.local):
+
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 ```
@@ -167,6 +173,7 @@ npm run dev
 ### Test Frontend
 
 Open browser and navigate to:
+
 ```
 http://localhost:3000
 ```
@@ -180,6 +187,7 @@ http://localhost:3000
 - Password: `admin`
 
 **Add Server**:
+
 1. Right-click "Servers" → "Register" → "Server"
 2. General tab:
    - Name: `Local Finpilot DB`
@@ -193,6 +201,7 @@ http://localhost:3000
 4. Click "Save"
 
 Then navigate to:
+
 ```
 Servers → Local Finpilot DB → Databases → finpilot → Schemas → public → Tables → plans
 ```
@@ -346,6 +355,7 @@ alembic upgrade head
 **Error**: `could not translate host name "db" to address`
 
 **Solution**: Make sure `.env` has `localhost` not `db`:
+
 ```bash
 # Check backend/.env
 cat backend/.env | grep DATABASE_URL
@@ -357,6 +367,7 @@ cat backend/.env | grep DATABASE_URL
 **Error**: `Failed to fetch from http://localhost:8000/api/v1`
 
 **Solution**:
+
 1. Verify backend is running: `curl http://localhost:8000/api/v1/health`
 2. Check frontend environment: `echo $NEXT_PUBLIC_API_URL`
 3. Verify CORS settings in backend `.env`:
@@ -369,12 +380,14 @@ cat backend/.env | grep DATABASE_URL
 **Error**: `ModuleNotFoundError: No module named 'src'`
 
 **Solution**: Make sure you're in the backend directory:
+
 ```bash
 cd backend
 alembic upgrade head  # ✓ Correct
 ```
 
 Not:
+
 ```bash
 alembic upgrade head  # ✗ Wrong - not in backend directory
 ```
@@ -384,6 +397,7 @@ alembic upgrade head  # ✗ Wrong - not in backend directory
 **Error**: `Address already in use`
 
 **Solution**:
+
 ```bash
 # Find process using port
 lsof -i :8000  # Backend

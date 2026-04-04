@@ -73,14 +73,13 @@ def run_migrations_online() -> None:
     """
     import os
     from dotenv import load_dotenv
-    
+
     # Load .env file
     load_dotenv()
-    
+
     # Use DATABASE_URL from environment, with fallback for Docker
     sync_url = os.getenv(
-        "DATABASE_URL",
-        "postgresql://finpilot_user:finpilot_password@db:5432/finpilot"
+        "DATABASE_URL", "postgresql://finpilot_user:finpilot_password@db:5432/finpilot"
     )
 
     sync_engine = create_engine(sync_url, poolclass=pool.NullPool)

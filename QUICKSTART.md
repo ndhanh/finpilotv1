@@ -3,6 +3,7 @@
 ## 📋 Setup Summary
 
 You now have a setup where:
+
 - **Database**: PostgreSQL 15 running in Docker
 - **Backend**: FastAPI running locally (Python)
 - **Frontend**: Next.js running locally (Node.js)
@@ -36,6 +37,7 @@ uvicorn src.main:app --reload
 ```
 
 Expected output:
+
 ```
 INFO:     Uvicorn running on http://127.0.0.1:8000
 INFO:     Application startup complete
@@ -54,6 +56,7 @@ npm run dev
 ```
 
 Expected output:
+
 ```
 ▲ Next.js 14.x.x
 - ready started server on 0.0.0.0:3000
@@ -74,6 +77,7 @@ curl http://localhost:8000/api/v1/templates
 ### Test Frontend
 
 Open in browser:
+
 ```
 http://localhost:3000
 ```
@@ -81,6 +85,7 @@ http://localhost:3000
 ### Test Database
 
 Access PgAdmin:
+
 ```
 http://localhost:8080
 Email: admin@finpilot.com
@@ -92,6 +97,7 @@ Password: admin
 ### Apply New Migrations
 
 After creating a new migration file:
+
 ```bash
 cd backend
 alembic upgrade head
@@ -127,7 +133,8 @@ alembic upgrade head
 
 **Problem**: `psycopg2.OperationalError: could not connect to server`
 
-**Fix**: 
+**Fix**:
+
 ```bash
 # Check .env has localhost (not 'db')
 cat backend/.env | grep DATABASE_URL
@@ -142,6 +149,7 @@ docker-compose ps
 **Problem**: `Failed to fetch from http://localhost:8000`
 
 **Fix**:
+
 1. Verify backend is running: `lsof -i :8000`
 2. Check frontend `.env.local` file exists and has correct API URL
 3. Backend CORS must allow frontend origin: Check backend `.env`
@@ -151,6 +159,7 @@ docker-compose ps
 **Problem**: `Address already in use :8000`
 
 **Fix**:
+
 ```bash
 # Find what's using the port
 lsof -i :8000
@@ -162,6 +171,7 @@ kill -9 <PID>
 ## 📚 Full Documentation
 
 For detailed setup, troubleshooting, and workflow:
+
 - [LOCAL_DEVELOPMENT_SETUP.md](docs/LOCAL_DEVELOPMENT_SETUP.md) - Complete guide
 
 ## 🎯 Next Steps
